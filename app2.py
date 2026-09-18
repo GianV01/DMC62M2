@@ -4,7 +4,7 @@ import pandas as pd
 st.title ("Manejo de DataFrame")
 st.sidebar.title ("Herramientas")
 
-archivo = st.sidebar.file_uplowder("Selecciona tu archibo a cargar")
+archivo = st.sidebar.file_uploader("Selecciona tu archibo a cargar")
 if archivo is not None:
   st.write ("Su archivo ha sido cargado exitosamente")
   
