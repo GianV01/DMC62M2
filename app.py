@@ -499,18 +499,13 @@ elif Modulos == "EDA":
                 "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de los equipos participantes de la Copa del Mundo 2026.")
 
 else :
-    st.divider()
-           
-            st.subheader("🏁 Conclusiones Finales y Decisiones Estratégicas")
-            st.markdown(
+    st.subheader("🏁 Conclusiones Finales y Decisiones Estratégicas")
+    st.markdown(
                 "A continuación se presentan las 5 conclusiones fundamentales derivadas de la exploración integral "
-                "del dataset. Cada una conecta directamente un hallazgo cuantitativo con una decisión práctica para el cuerpo técnico."
-            )
-    
-            c_conc1, c_conc2 = st.columns(2)
-    
-            with c_conc1:
-                st.markdown("""
+                "del dataset. Cada una conecta directamente un hallazgo cuantitativo con una decisión práctica para el cuerpo técnico.")
+    c_conc1, c_conc2 = st.columns(2)
+    with c_conc1:
+        st.markdown("""
                 **1. La precisión de pase como predictor primario de control territorial**
                 * **Evidencia estadística/visual:** En el gráfico de caja (*Boxplot*) y distribuciones del **Ítem 4**, se observa que los equipos que obtienen victorias mantienen un promedio de precisión de pases superior al 84%, con una menor dispersión que los equipos derrotados.
                 * **Toma de decisiones:** Orientar la preparación táctica hacia el mantenimiento de la posesión en zona de creación, priorizando circuitos de pase de bajo riesgo sobre pelotazos directos para sostener el dominio del partido.
@@ -528,8 +523,8 @@ else :
                 * **Toma de decisiones:** Valorar el aporte integral del jugador más allá de la cuota goleadora, recompensando el compromiso en la fase de presión y recuperación al momento de definir las alineaciones titulares.
                 """)
     
-            with c_conc2:
-                st.markdown("""
+    with c_conc2:
+        st.markdown("""
                 **4. Concentración de picos de velocidad e intensidad por bandas**
                 * **Evidencia estadística/visual:** Los gráficos de dispersión (*Scatter plots*) del **Ítem 5 y 7** muestran que las velocidades máximas registraras (picos > 32 km/h) están fuertemente agrupadas en las posiciones de extremos y laterales.
                 * **Toma de decisiones:** Explotar el ancho del campo mediante transiciones rápidas por las bandas en situaciones de contraataque, utilizando jugadores de perfil veloz para desarticular bloques defensivos cerrados.
