@@ -226,7 +226,7 @@ else :
 
         with tab5:
             st.subheader("Distribución de variables numéricas")
-            st.markdown("Analiza métricas específicas para interpretar asimetrías o valores atípicos.")
+            st.markdown("Analisis de métricas específicas con el fin de observar asimetrías o valores atípicos.")
             
             variables_objetivo = ['player_rating', 'performance_score', 'pass_accuracy', 'distance_covered_km', 'top_speed_kmh']
             cols_disponibles = [col for col in variables_objetivo if col in datos.columns]
