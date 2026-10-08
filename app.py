@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 
-    class DataAnalyzer:
-    def __init__(self, df):
-        self.df = df
+class DataAnalyzer:
+    def __init__(self, df):
+        self.df = df
         
     def obtener_info_tabla(self):
         info_df = pd.DataFrame({
