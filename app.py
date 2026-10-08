@@ -18,12 +18,10 @@ class DataAnalyzer:
         }).reset_index(drop=True)
         return info_df
         
-def clasificar_variables(self):
-        # Separación usando dtypes de pandas
+    def clasificar_variables(self):
         num_cols = self.df.select_dtypes(include=[np.number]).columns.tolist()
         cat_cols = self.df.select_dtypes(exclude=[np.number]).columns.tolist()
         
-        # Retorna dataframes estructurados y el conteo para facilitar la visualización en Streamlit
         df_num = pd.DataFrame({"N°": range(1, len(num_cols) + 1), "Variable Numérica": num_cols, "Tipo": [self.df[col].dtype for col in num_cols]})
         df_cat = pd.DataFrame({"N°": range(1, len(cat_cols) + 1), "Variable Categórica": cat_cols, "Tipo": [self.df[col].dtype for col in cat_cols]})
         
