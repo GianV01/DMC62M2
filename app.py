@@ -5,7 +5,7 @@ import numpy as np
 st.sidebar.title("Modulos")
 Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
 
-if secciones == "Home":
+if Modulos == "Home":
     st.set_page_config(page_title=" Presentación ", page_icon="🪪", layout="wide")
     st.title("PROYECTO 2 – EDA DEL MUNDIAL FIFA 2026 CAN-USA-MEX",text_alignment="center")
     st.divider()
@@ -68,7 +68,6 @@ if secciones == "Home":
     st.divider()
 
     st.subheader(" 2026 ",text_alignment="center")
-elif secciones == "Dataset":
-    
+elif Modulos == "Dataset":
 
 else :
