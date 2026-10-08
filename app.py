@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 
-  class DataAnalyzer:
+    class DataAnalyzer:
     def __init__(self, df):
         self.df = df
         
