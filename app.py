@@ -187,14 +187,14 @@ else :
                 st.metric(label="Variables Categóricas", value=total_cat)
                 
             st.divider()
-        
-           col_num, col_cat = st.columns(2)
-           with col_num:
-               st.markdown(f"##### 🔢 Variables Numéricas ({total_num})")
-               st.dataframe(df_num, use_container_width=True, hide_index=True, height=400)
-           with col_cat:
-               st.markdown(f"##### 🔤 Variables Categóricas ({total_cat})")
-               st.dataframe(df_cat, use_container_width=True, hide_index=True, height=400)
+            
+            col_num, col_cat = st.columns(2)
+            with col_num:
+                st.markdown(f"##### 🔢 Variables Numéricas ({total_num})")
+                st.dataframe(df_num, use_container_width=True, hide_index=True, height=400)
+            with col_cat:
+                st.markdown(f"##### 🔤 Variables Categóricas ({total_cat})")
+                st.dataframe(df_cat, use_container_width=True, hide_index=True, height=400)
                 
        with tab3:
            st.subheader("Estadísticas descriptivas")
