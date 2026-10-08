@@ -195,7 +195,7 @@ else :
             with col_cat:
                 st.markdown(f"##### 🔤 Variables Categóricas ({total_cat})")
                 st.dataframe(df_cat, use_container_width=True, hide_index=True, height=400)
-                
-       with tab3:
+        
+        with tab3:
            st.subheader("Estadísticas descriptivas")
            st.dataframe(analyzer.estadisticas_descriptivas())
