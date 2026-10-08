@@ -83,9 +83,29 @@ elif Modulos == "Dataset":
             st.write(datos)
         elif archivo.name.endswith(".xlsx"):
             datos = pd.read_excel(archivo)
-            st.write(datos)
         else:
-            st.error("Formato no soportado. Por favor, sube un archivo .csv o .xlsx")
+            datos == None
+            st.error("El formato cargado no es correpto. Por favor, sube un archivo .csv o .xlsx")
+
+        if datos is not None:
+            
+            st.subheader("Vista Previa de los Datos")
+            cant_filas = st.slider(
+                "Selecciona el número de filas a mostrar:",
+                min_value=1,
+                max_value=len(datos),
+                value=10,
+            )
+            
+            st.dataframe(datos.head(cant_filas))
+
+            st.divider()
+            
+            st.subheader("Dimensiones del Dataset")
+            col1, col2 = st.columns(2)
+            col1.metric("Número de Filas", datos.shape[0])
+            col2.metric("Número de Columnas", datos.shape[1])
+
     else:
         st.info("Por favor, sube un archivo para continuar.")
 
