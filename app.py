@@ -369,6 +369,7 @@ else :
             st.subheader("Análisis dinámico según parámetros seleccionados")
             st.markdown("Filtra el dataset y analiza grupos específicos de métricas tácticas y físicas.")
             
+            # Filtros laterales/superiores
             col_f1, col_f2, col_f3 = st.columns(3)
             
             with col_f1:
@@ -380,7 +381,18 @@ else :
                 res_sel = st.multiselect("Resultado del Partido:", options=sorted(datos['match_result'].dropna().unique()) if 'match_result' in datos.columns else [])
                 
             with col_f3:
-                player_sel = st.multiselect("Jugadores específicos:", options=sorted(datos['player_name'].dropna().unique()) if 'player_name' in datos.columns else [])
+                # LISTA DINÁMICA DE JUGADORES SEGÚN EL PAÍS/EQUIPO SELECCIONADO
+                if 'player_name' in datos.columns:
+                    if teams_sel and 'team' in datos.columns:
+                        # Si hay países seleccionados, filtramos los nombres solo de esos países
+                        opciones_jugadores = sorted(datos[datos['team'].isin(teams_sel)]['player_name'].dropna().unique())
+                    else:
+                        # Si no hay país seleccionado, mostramos todos los jugadores
+                        opciones_jugadores = sorted(datos['player_name'].dropna().unique())
+                else:
+                    opciones_jugadores = []
+
+                player_sel = st.multiselect("Jugadores específicos:", options=opciones_jugadores)
                 
                 if 'player_rating' in datos.columns:
                     min_r, max_r = float(datos['player_rating'].min()), float(datos['player_rating'].max())
@@ -388,6 +400,7 @@ else :
                 else:
                     rating_range = None
 
+            # Aplicar Filtros en Cascada
             df_filtrado = datos.copy()
             if teams_sel: df_filtrado = df_filtrado[df_filtrado['team'].isin(teams_sel)]
             if pos_sel: df_filtrado = df_filtrado[df_filtrado['position'].isin(pos_sel)]
@@ -403,6 +416,7 @@ else :
                 st.divider()
                 st.markdown("##### Comparación de Grupos de Métricas")
                 
+                # Definición de grupos de métricas
                 metricas_dict = {
                     "Métricas Ofensivas": [c for c in ['goals', 'assists', 'shots_on_target', 'dribbles_completed', 'pass_accuracy'] if c in df_filtrado.columns],
                     "Métricas Defensivas": [c for c in ['tackles_won', 'interceptions', 'duels_won', 'clearances', 'fouls_committed'] if c in df_filtrado.columns],
@@ -427,7 +441,7 @@ else :
                         st.pyplot(fig)
             else:
                 st.warning("No hay datos disponibles para los filtros seleccionados.")
-
+                
         with tab10:
             st.subheader("Hallazgos clave, Insights y Recomendaciones")
             st.markdown("Resumen ejecutivo del análisis exploratorio orientado a la toma de decisiones estratégicas tácticas.")
