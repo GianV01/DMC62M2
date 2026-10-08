@@ -8,8 +8,8 @@ import io
 class DataAnalyzer:
     def __init__(self, df):
         self.df = df
-        
-    def obtener_info_tabla(self):
+    
+    def obtener_info_tabla(self):
         info_df = pd.DataFrame({
             'Columna': self.df.columns,
             'Tipo de Dato': self.df.dtypes.astype(str),
