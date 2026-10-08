@@ -290,3 +290,37 @@ else :
                     st.pyplot(fig)
             else:
                 st.warning("No se encontraron las columnas categóricas especificadas.")
+        
+        with tab7:
+            st.subheader("Análisis bivariado (Numérico vs Categórico)")
+            st.markdown("Comparación de rendimiento y rendimiento físico a través de variables categóricas.")
+            
+            opciones_analisis = {
+                "Calificación según Posición": ("player_rating", "position"),
+                "Rendimiento según Resultado": ("performance_score", "match_result"),
+                "Distancia recorrida según Posición": ("distance_covered_km", "position"),
+                "Velocidad máxima según Posición": ("top_speed_kmh", "position")
+            }
+            
+            opciones_validas = {k: v for k, v in opciones_analisis.items() if v[0] in datos.columns and v[1] in datos.columns}
+            
+            if opciones_validas:
+                estudio_sel = st.selectbox("Selecciona la comparación a analizar:", list(opciones_validas.keys()))
+                num_var, cat_var = opciones_validas[estudio_sel]
+                
+                col1, col2 = st.columns([1.1, 1])
+                
+                with col1:
+                    st.markdown(f"##### Resumen Estadístico: `{num_var}` por `{cat_var}`")
+                    df_resumen = analyzer.comparacion_bivariada_num_cat(num_var, cat_var)
+                    st.dataframe(df_resumen, use_container_width=True, hide_index=True)
+                    
+                with col2:
+                    st.markdown(f"##### Diagrama de Caja (Boxplot)")
+                    fig, ax = plt.subplots(figsize=(7, 4.5))
+                    sns.boxplot(data=datos, x=cat_var, y=num_var, ax=ax, palette='Set2')
+                    plt.xticks(rotation=30, ha='right')
+                    ax.set_title(f"{num_var} vs {cat_var}")
+                    st.pyplot(fig)
+            else:
+                st.warning("Las variables necesarias para el análisis bivariado no están disponibles en el dataset.")
