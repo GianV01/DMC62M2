@@ -221,7 +221,8 @@ else :
                 ax.invert_yaxis()
                 st.pyplot(fig)
             
-            st.info("**Discusión:** " + ("El dataset no presenta valores faltantes (100% completo). No se requiere imputación[cite: 6]." if total_nulos == 0 else "Existen valores nulos. Se recomienda imputar con la mediana para variables numéricas."))
+            st.info("Podemos visualizar mediante el analisis que dentro de los registros no se presenta valores faltantes, el porcentaje es categorias con valores nulos es del 0% en todas.  "
+                    " Esto es de mayor apoyo para el analisis debido a que no se va a tener que suponer o rellenar columnas con valores que pueden alterar o ser errados para proximos encuentros a disputar")
 
         with tab5:
             st.subheader("Distribución de variables numéricas")
