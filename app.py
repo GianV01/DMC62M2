@@ -80,7 +80,6 @@ elif Modulos == "Dataset":
         
         if archivo.name.endswith(".csv"):
             datos = pd.read_csv(archivo)
-            st.write(datos)
         elif archivo.name.endswith(".xlsx"):
             datos = pd.read_excel(archivo)
         else:
@@ -90,14 +89,10 @@ elif Modulos == "Dataset":
         if datos is not None:
             
             st.subheader("Vista Previa de los Datos")
-            cant_filas = st.slider(
-                "Selecciona el número de filas a mostrar:",
-                min_value=1,
-                max_value=len(datos),
-                value=10,
-            )
             
-            st.dataframe(datos.head(cant_filas))
+            filas = st.number_input("Selecciona el numero de filas a mostrar", min_value=1, value=1, step=10)
+            
+            st.dataframe(datos.head(filas))
 
             st.divider()
             
