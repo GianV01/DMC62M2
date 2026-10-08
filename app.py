@@ -18,10 +18,16 @@ class DataAnalyzer:
         }).reset_index(drop=True)
         return info_df
         
-    def clasificar_variables(self):
-        numericas = self.df.select_dtypes(include=[np.number]).columns.tolist()
-        categoricas = self.df.select_dtypes(exclude=[np.number]).columns.tolist()
-        return numericas, categoricas
+def clasificar_variables(self):
+        # Separación usando dtypes de pandas
+        num_cols = self.df.select_dtypes(include=[np.number]).columns.tolist()
+        cat_cols = self.df.select_dtypes(exclude=[np.number]).columns.tolist()
+        
+        # Retorna dataframes estructurados y el conteo para facilitar la visualización en Streamlit
+        df_num = pd.DataFrame({"N°": range(1, len(num_cols) + 1), "Variable Numérica": num_cols, "Tipo": [self.df[col].dtype for col in num_cols]})
+        df_cat = pd.DataFrame({"N°": range(1, len(cat_cols) + 1), "Variable Categórica": cat_cols, "Tipo": [self.df[col].dtype for col in cat_cols]})
+        
+        return df_num, df_cat, len(num_cols), len(cat_cols)
         
     def estadisticas_descriptivas(self):
         return self.df.describe()
@@ -171,16 +177,31 @@ else :
                 st.metric("Registros Duplicados", datos.duplicated().sum())
            
                 
-        with tab2:
+       with tab2:
             st.subheader("Clasificación de variables")
-            num, cat = analyzer.clasificar_variables()
-            col1, col2 = st.columns(2)
-            with col1:
-                st.write(f"**Numéricas ({len(num)})**")
-                st.dataframe(pd.DataFrame(num, columns=["Variables Numéricas"]))
-            with col2:
-                st.write(f"**Categóricas ({len(cat)})**")
-                st.dataframe(pd.DataFrame(cat, columns=["Variables Categóricas"]))
+            st.markdown("Clasificación automática de los atributos del dataset en variables cuantitativas (numéricas) y cualitativas (categóricas).")
+            
+            df_num, df_cat, total_num, total_cat = analyzer.clasificar_variables()
+            
+            m1, m2, m3 = st.columns(3)
+            with m1:
+                st.metric(label="Total de Variables", value=datos.shape[1])
+            with m2:
+                st.metric(label="Variables Numéricas", value=total_num)
+            with m3:
+                st.metric(label="Variables Categóricas", value=total_cat)
+                
+            st.divider()
+            
+            col_num, col_cat = st.columns(2)
+            
+            with col_num:
+                st.markdown(f"##### 🔢 Variables Numéricas ({total_num})")
+                st.dataframe(df_num, use_container_width=True, hide_index=True, height=400)
+                
+            with col_cat:
+                st.markdown(f"##### 🔤 Variables Categóricas ({total_cat})")
+                st.dataframe(df_cat, use_container_width=True, hide_index=True, height=400)
                 
         with tab3:
             st.subheader("Estadísticas descriptivas")
