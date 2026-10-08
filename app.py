@@ -33,8 +33,9 @@ class DataAnalyzer:
     def analizar_faltantes(self):
         faltantes = self.df.isnull().sum()
         porcentaje = (faltantes / len(self.df)) * 100
-        df_faltantes = pd.DataFrame({'Cantidad': faltantes, 'Porcentaje (%)': porcentaje})
-        return df_faltantes[df_faltantes['Cantidad'] > 0]
+        return pd.DataFrame({'Variable': self.df.columns, 
+                             'Cantidad Nulos': faltantes.values, 
+                             'Porcentaje (%)': porcentaje.values}).sort_values(by='Cantidad Nulos', ascending=False).reset_index(drop=True)
 
 st.sidebar.title("Modulos")
 Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
@@ -203,22 +204,24 @@ else :
         with tab4:
             st.subheader("Análisis de valores faltantes")
             df_faltantes = analyzer.analizar_faltantes()
+            total_nulos = datos.isnull().sum().sum()
             
-            if df_faltantes.empty:
-                st.success("¡Excelente! No se han detectado valores faltantes en el dataset.")
-                st.info("**Discusión:** De acuerdo con la validación, el dataset está limpio de nulos. Esto coincide con el diccionario de datos del caso de estudio. Por lo tanto, no es necesario aplicar técnicas de imputación (como rellenar con la mediana) ni eliminar filas.")
-            else:
-                col1, col2 = st.columns([1, 2])
-                with col1:
-                    st.dataframe(df_faltantes, use_container_width=True)
-                with col2:
-                    fig, ax = plt.subplots(figsize=(8, 4))
-                    sns.barplot(x=df_faltantes.index, y=df_faltantes['Cantidad'], ax=ax, palette="viridis")
-                    plt.xticks(rotation=45, ha='right')
-                    plt.title("Cantidad de Valores Faltantes por Variable")
-                    st.pyplot(fig)
-                
-                st.markdown("**Discusión:** Existen variables con valores nulos. Dependiendo del porcentaje, se recomendaría imputar los valores numéricos con la mediana y los categóricos con la moda, o descartar la variable si el porcentaje supera el umbral crítico (>30%).")
+            c1, c2 = st.columns(2)
+            c1.metric("Total de Registros Nulos", total_nulos)
+            c2.metric("Porcentaje Global", f"{(total_nulos / (datos.shape[0] * datos.shape[1])) * 100:.2f}%")
+            st.divider()
+            
+            col1, col2 = st.columns(2)
+            col1.dataframe(df_faltantes, use_container_width=True, hide_index=True, height=300)
+            
+            with col2:
+                fig, ax = plt.subplots(figsize=(6, 4))
+                ax.barh(df_faltantes['Variable'].head(10), 100 if total_nulos == 0 else df_faltantes['Porcentaje (%)'].head(10), color='#2ecc71' if total_nulos == 0 else '#e74c3c')
+                ax.set_xlabel("Completitud (%)" if total_nulos == 0 else "Nulos (%)")
+                ax.invert_yaxis()
+                st.pyplot(fig)
+            
+            st.info("**Discusión:** " + ("El dataset no presenta valores faltantes (100% completo). No se requiere imputación[cite: 6]." if total_nulos == 0 else "Existen valores nulos. Se recomienda imputar con la mediana para variables numéricas."))
 
         with tab5:
             st.subheader("Distribución de variables numéricas")
