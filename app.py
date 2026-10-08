@@ -18,17 +18,16 @@ class DataAnalyzer:
         cat_cols = self.df.select_dtypes(exclude=[np.number]).columns.tolist()
         
         df_num = pd.DataFrame({"N°": range(1, len(num_cols) + 1), "Variable Numérica": num_cols, "Tipo": [self.df[col].dtype for col in num_cols]})
-        df_cat = pd.DataFrame({"N°": range(1, len(cat_cols) + 1), "Variable Categórica": cat_cols, "Tipo": [self.df[col].dtype for col in cat_cols]})
-        
-        return df_num, df_cat, len(num_cols), len(cat_cols)
-
+        df_cat = pd.DataFrame({"N°": range(1, len(cat_cols) + 1), "Variable Categórica": cat_cols, "Tipo": [self.df[col].dtype for col in cat_cols]})
+        return df_num, df_cat, len(num_cols), len(cat_cols)
+        
     def estadisticas_descriptivas(self):
-        return self.df.describe()
-
+        return self.df.describe()
+    
     def analizar_faltantes(self):
-        faltantes = self.df.isnull().sum()
-        porcentaje = (faltantes / len(self.df)) * 100
-        return pd.DataFrame({'Variable': self.df.columns, 
+        faltantes = self.df.isnull().sum()
+        porcentaje = (faltantes / len(self.df)) * 100
+        return pd.DataFrame({'Variable': self.df.columns, 
                              'Cantidad Nulos': faltantes.values, 
                              'Porcentaje (%)': porcentaje.values}).sort_values(by='Cantidad Nulos', ascending=False).reset_index(drop=True)
     
