@@ -445,12 +445,13 @@ else :
         with tab10:
             st.subheader("Hallazgos clave y reflexiones del torneo")
             st.markdown(
-                "Más allá de las cifras frías, el análisis exploratorio de datos nos permite entender la dinámica real del juego en esta Copa del Mundo. "
-                "A continuación, condensamos las lecturas más relevantes del torneo para respaldar la toma de decisiones del cuerpo técnico."
-            )
+                " El análisis exploratorio de datos nos permite entender la dinámica real del juego en esta Copa del Mundo. "
+                " Por lo que se va a mostar las lecturas más relevantes del torneo con respecto al rendimiento indivual de jugadores y resultados de los equipos.")
+            
             st.divider()
 
-            # Resumen Ejecutivo / Tarjetas Destacadas
+            st.markdown(" **Este analisis nos ha dado como resultado que el jugador más destacado en cuanto atributos fisicos es el defensor egipcio: **")
+
             kpi1, kpi2, kpi3, kpi4 = st.columns(4)
             
             p_top = datos.loc[datos['player_rating'].idxmax(), 'player_name'] if ('player_rating' in datos.columns and 'player_name' in datos.columns) else "N/A"
