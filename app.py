@@ -496,6 +496,6 @@ else :
 
             st.divider()
             st.info(
-                "💬 **Nota de interpretación:** Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
-                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de nuestro plantel."
+                "💬 Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
+                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de los equipos participantes de la Copa del Mundo 2026."
             )
