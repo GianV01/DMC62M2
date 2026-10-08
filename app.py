@@ -36,6 +36,18 @@ class DataAnalyzer:
         return pd.DataFrame({'Variable': self.df.columns, 
                              'Cantidad Nulos': faltantes.values, 
                              'Porcentaje (%)': porcentaje.values}).sort_values(by='Cantidad Nulos', ascending=False).reset_index(drop=True)
+    
+    def analizar_categorica(self, columna):
+        conteo = self.df[columna].value_counts()
+        proporcion = self.df[columna].value_counts(normalize=True) * 100
+        return pd.DataFrame({
+            'Categoría': conteo.index,
+            'Frecuencia Absoluta': conteo.values,
+            'Proporción (%)': proporcion.values.round(2)
+        })
+
+    def comparacion_bivariada_num_cat(self, num_col, cat_col):
+        return self.df.groupby(cat_col)[num_col].agg(['count', 'mean', 'median', 'std', 'min', 'max']).reset_index()    
 
 st.sidebar.title("Modulos")
 Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
@@ -252,3 +264,29 @@ else :
                 
             else:
                 st.warning("Las columnas sugeridas no se encuentran en el dataset. Verifica los nombres de las variables.")
+        
+        with tab6:
+            st.subheader("Análisis de variables categóricas")
+            st.markdown("Evaluación de frecuencias absolutas, proporciones y distribución de categorías clave.")
+            
+            cats_disponibles = [c for c in ['position', 'tournament_stage', 'match_result', 'preferred_foot', 'team'] if c in datos.columns]
+            
+            if cats_disponibles:
+                cat_sel = st.selectbox("Selecciona la variable categórica a analizar:", cats_disponibles)
+                df_cat_summary = analyzer.analizar_categorica(cat_sel)
+                
+                c1, c2 = st.columns([1, 1.2])
+                with c1:
+                    st.markdown(f"##### Tabla de Conteos y Proporciones ({cat_sel})")
+                    st.dataframe(df_cat_summary, use_container_width=True, hide_index=True, height=350)
+                    
+                with c2:
+                    st.markdown(f"##### Gráfico de Barras ({cat_sel})")
+                    fig, ax = plt.subplots(figsize=(7, 4.5))
+                    
+                    data_plot = df_cat_summary.head(10)
+                    sns.barplot(data=data_plot, x='Proporción (%)', y='Categoría', ax=ax, palette='Blues_r')
+                    ax.set_title(f"Distribución porcentual de {cat_sel}")
+                    st.pyplot(fig)
+            else:
+                st.warning("No se encontraron las columnas categóricas especificadas.")
