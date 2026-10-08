@@ -450,7 +450,7 @@ else :
             
             st.divider()
 
-            st.markdown(" **Este analisis nos ha dado como resultado que el jugador más destacado en cuanto atributos fisicos es el defensor egipcio: **")
+            st.markdown(**" Este analisis nos ha dado como resultado que el jugador más destacado en cuanto atributos fisicos es el defensor egipcio: "**)
 
             kpi1, kpi2, kpi3, kpi4 = st.columns(4)
             
