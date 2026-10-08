@@ -237,12 +237,12 @@ else :
                     var_seleccionada = st.selectbox("Selecciona la métrica:", cols_disponibles)
                 with col2:
                     st.write("") 
-                    separar_posicion = st.checkbox("Separar por posición (position)")
+                    separar_posicion = st.checkbox("Separar por posición dentro del campo")
 
                 fig, ax = plt.subplots(figsize=(10, 5))
                 
                 if separar_posicion and 'position' in datos.columns:
-                    sns.histplot(data=datos, x=var_seleccionada, hue='position', kde=True, ax=ax)
+                    sns.histplot(data=datos, x=var_seleccionada, hue='Posición', kde=True, ax=ax)
                     plt.title(f"Distribución de {var_seleccionada} agrupado por Posición")
                 else:
                     sns.histplot(data=datos, x=var_seleccionada, kde=True, color='teal', ax=ax)
@@ -250,6 +250,5 @@ else :
                 
                 st.pyplot(fig)
                 
-                st.info(f"**Interpretación:** Analizando la variable `{var_seleccionada}`. La curva KDE (KDE line) ayuda a visualizar si la concentración de datos es simétrica (campana de Gauss) o si presenta asimetría debido a valores extremos (colas).")
             else:
                 st.warning("Las columnas sugeridas no se encuentran en el dataset. Verifica los nombres de las variables.")
