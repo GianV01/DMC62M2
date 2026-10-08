@@ -199,3 +199,53 @@ else :
         with tab3:
            st.subheader("Estadísticas descriptivas")
            st.dataframe(analyzer.estadisticas_descriptivas())
+        
+        with tab4:
+            st.subheader("Análisis de valores faltantes")
+            df_faltantes = analyzer.analizar_faltantes()
+            
+            if df_faltantes.empty:
+                st.success("¡Excelente! No se han detectado valores faltantes en el dataset.")
+                st.info("**Discusión:** De acuerdo con la validación, el dataset está limpio de nulos. Esto coincide con el diccionario de datos del caso de estudio. Por lo tanto, no es necesario aplicar técnicas de imputación (como rellenar con la mediana) ni eliminar filas.")
+            else:
+                col1, col2 = st.columns([1, 2])
+                with col1:
+                    st.dataframe(df_faltantes, use_container_width=True)
+                with col2:
+                    fig, ax = plt.subplots(figsize=(8, 4))
+                    sns.barplot(x=df_faltantes.index, y=df_faltantes['Cantidad'], ax=ax, palette="viridis")
+                    plt.xticks(rotation=45, ha='right')
+                    plt.title("Cantidad de Valores Faltantes por Variable")
+                    st.pyplot(fig)
+                
+                st.markdown("**Discusión:** Existen variables con valores nulos. Dependiendo del porcentaje, se recomendaría imputar los valores numéricos con la mediana y los categóricos con la moda, o descartar la variable si el porcentaje supera el umbral crítico (>30%).")
+
+        with tab5:
+            st.subheader("Distribución de variables numéricas")
+            st.markdown("Analiza métricas específicas para interpretar asimetrías o valores atípicos.")
+            
+            variables_objetivo = ['player_rating', 'performance_score', 'pass_accuracy', 'distance_covered_km', 'top_speed_kmh']
+            cols_disponibles = [col for col in variables_objetivo if col in datos.columns]
+            
+            if cols_disponibles:
+                col1, col2 = st.columns(2)
+                with col1:
+                    var_seleccionada = st.selectbox("Selecciona la métrica:", cols_disponibles)
+                with col2:
+                    st.write("") 
+                    separar_posicion = st.checkbox("Separar por posición (position)")
+
+                fig, ax = plt.subplots(figsize=(10, 5))
+                
+                if separar_posicion and 'position' in datos.columns:
+                    sns.histplot(data=datos, x=var_seleccionada, hue='position', kde=True, ax=ax)
+                    plt.title(f"Distribución de {var_seleccionada} agrupado por Posición")
+                else:
+                    sns.histplot(data=datos, x=var_seleccionada, kde=True, color='teal', ax=ax)
+                    plt.title(f"Distribución General de {var_seleccionada}")
+                
+                st.pyplot(fig)
+                
+                st.info(f"**Interpretación:** Analizando la variable `{var_seleccionada}`. La curva KDE (KDE line) ayuda a visualizar si la concentración de datos es simétrica (campana de Gauss) o si presenta asimetría debido a valores extremos (colas).")
+            else:
+                st.warning("Las columnas sugeridas no se encuentran en el dataset. Verifica los nombres de las variables.")
