@@ -53,7 +53,7 @@ class DataAnalyzer:
         return pd.crosstab(self.df[col1], self.df[col2], normalize='index' if normalize else False).round(4)
 
 st.sidebar.title("Modulos")
-Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
+Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA","Conclusiones"])
 
 if Modulos == "Home":
     st.set_page_config(page_title=" Presentación ", page_icon="🪪", layout="wide")
@@ -150,7 +150,7 @@ elif Modulos == "Dataset":
     else:
         st.info("Por favor, sube un archivo para continuar.")
 
-else :
+elif Modulos == "EDA":
     st.title("EDA FIFA 2026")
     
     if 'datos' not in st.session_state:
@@ -493,8 +493,13 @@ else :
                 * **Entrenamientos individualizados según la posición:**  
                   Diseñar microciclos de preparación física diferenciados: mientras los defensores y delanteros requieren ejercicios de aceleración corta y potencia, la línea media exige un enfoque predominantemente aeróbico y de resistencia.
                 """)
-
+               
             st.divider()
+            st.info("💬 Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
+                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de los equipos participantes de la Copa del Mundo 2026.")
+
+else :
+    st.divider()
            
             st.subheader("🏁 Conclusiones Finales y Decisiones Estratégicas")
             st.markdown(
@@ -535,9 +540,6 @@ else :
                 * **Evidencia estadística/visual:** El análisis de valores atípicos (*Outliers*) e intervalo intercuartílico en los **Ítems 2 y 8** revela que en fases eliminatorias (*Knockout Stage*) disminuye la variabilidad de faltas y aumenta la efectividad de pases en comparación con la fase de grupos.
                 * **Toma de decisiones:** Ajustar el plan de juego según la fase del torneo, priorizando un enfoque de menor margen de error, disciplina táctica y alta efectividad en la entrega del balón durante las instancias decisivas.
                 """)
-                
-            st.divider()
-            st.info("💬 Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
-                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de los equipos participantes de la Copa del Mundo 2026.")
+    
            
                 
