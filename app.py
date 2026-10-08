@@ -9,10 +9,14 @@ class DataAnalyzer:
     def __init__(self, df):
         self.df = df
         
-    def obtener_info(self):
-        buffer = io.StringIO()
-        self.df.info(buf=buffer)
-        return buffer.getvalue()
+    def obtener_info_tabla(self):
+        info_df = pd.DataFrame({
+            'Columna': self.df.columns,
+            'Tipo de Dato': self.df.dtypes.astype(str),
+            'Valores No Nulos': self.df.notnull().sum(),
+            'Valores Nulos': self.df.isnull().sum()
+        }).reset_index(drop=True)
+        return info_df
         
     def clasificar_variables(self):
         numericas = self.df.select_dtypes(include=[np.number]).columns.tolist()
@@ -21,6 +25,12 @@ class DataAnalyzer:
         
     def estadisticas_descriptivas(self):
         return self.df.describe()
+
+    def analizar_faltantes(self):
+        faltantes = self.df.isnull().sum()
+        porcentaje = (faltantes / len(self.df)) * 100
+        df_faltantes = pd.DataFrame({'Cantidad': faltantes, 'Porcentaje (%)': porcentaje})
+        return df_faltantes[df_faltantes['Cantidad'] > 0]
 
 st.sidebar.title("Modulos")
 Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
@@ -132,25 +142,34 @@ else :
         st.success("Dataset cargado correctamente. Iniciando Análisis Exploratorio.")
         
         
-        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([" Ítem 1: Información General",  
-                                                                               " Ítem 2: Variables",  
-                                                                               " Ítem 3: Estadísticas",  
-                                                                               " Ítem 4: Análisis de valores faltantes ",  
-                                                                               " Ítem 5: Distribución de variables numéricas ",  
-                                                                               " Ítem 6: Análisis de variables categóricas",  
-                                                                               " Ítem 7: Análisis bivariado (numérico vs categórico) ",  
-                                                                               " Ítem 8: Análisis bivariado (categórico vs categórico) ", 
-                                                                               " Ítem 9: Análisis basado en parámetros seleccionados ",  
-                                                                               " Ítem 10: Hallazgos clave ",])
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([" Ítem 1 ",  
+                                                                               " Ítem 2 ",  
+                                                                               " Ítem 3 ",  
+                                                                               " Ítem 4 ",  
+                                                                               " Ítem 5 ",  
+                                                                               " Ítem 6 ",  
+                                                                               " Ítem 7 ",  
+                                                                               " Ítem 8 ", 
+                                                                               " Ítem 9 ",  
+                                                                               " Ítem 10 ",])
         
         with tab1:
-            st.subheader("Información general del dataset")
-            col1, col2 = st.columns(2)
+            st.subheader("Información del dataset")
+
+            st.markdown("##### Estructura y Tipos de Datos")
+            info_tabla = analyzer.obtener_info_tabla()
+            st.dataframe(info_tabla, use_container_width=True, hide_index=True)
+                        
+            st.divider()
+            
+                col1, col2, col3 = st.columns(3)
             with col1:
-                st.text(analyzer.obtener_info())
+                st.metric("Total de Columnas", datos.shape[1])
             with col2:
                 st.metric("Valores Nulos Totales", datos.isnull().sum().sum())
+            with col3:
                 st.metric("Registros Duplicados", datos.duplicated().sum())
+           
                 
         with tab2:
             st.subheader("Clasificación de variables")
