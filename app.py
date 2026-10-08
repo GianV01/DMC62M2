@@ -495,7 +495,49 @@ else :
                 """)
 
             st.divider()
-            st.info(
-                "💬 Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
-                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de los equipos participantes de la Copa del Mundo 2026."
+           
+            st.subheader("🏁 Conclusiones Finales y Decisiones Estratégicas")
+            st.markdown(
+                "A continuación se presentan las 5 conclusiones fundamentales derivadas de la exploración integral "
+                "del dataset. Cada una conecta directamente un hallazgo cuantitativo con una decisión práctica para el cuerpo técnico."
             )
+    
+            c_conc1, c_conc2 = st.columns(2)
+    
+            with c_conc1:
+                st.markdown("""
+                **1. La precisión de pase como predictor primario de control territorial**
+                * **Evidencia estadística/visual:** En el gráfico de caja (*Boxplot*) y distribuciones del **Ítem 4**, se observa que los equipos que obtienen victorias mantienen un promedio de precisión de pases superior al 84%, con una menor dispersión que los equipos derrotados.
+                * **Toma de decisiones:** Orientar la preparación táctica hacia el mantenimiento de la posesión en zona de creación, priorizando circuitos de pase de bajo riesgo sobre pelotazos directos para sostener el dominio del partido.
+    
+                ---
+    
+                **2. Gestión de carga física diferenciada por posición**
+                * **Evidencia estadística/visual:** La matriz de calor (*Heatmap*) e histogramas del **Ítem 3** y **9** evidencian que los mediocampistas registran la mayor distancia recorrida (promedio > 10.5 km) y la mayor frecuencia de sprints, superando significativamente a defensores y delanteros.
+                * **Toma de decisiones:** Diseñar un plan de rotación y sustituciones programadas a partir del minuto 60 para los volantes centrales, evitando la fatiga acumulada y previniendo caídas en la efectividad defensiva en los tramos finales.
+    
+                ---
+    
+                **3. Impacto del rendimiento defensivo en la valoración general del jugador**
+                * **Evidencia estadística/visual:** En la matriz de correlación de Pearson del **Ítem 6**, el *Player Rating* muestra una correlación positiva moderada-alta no solo con goles y asistencias, sino de manera consistente con los duelos ganados (*duels_won*) y quites (*tackles_won*).
+                * **Toma de decisiones:** Valorar el aporte integral del jugador más allá de la cuota goleadora, recompensando el compromiso en la fase de presión y recuperación al momento de definir las alineaciones titulares.
+                """)
+    
+            with c_conc2:
+                st.markdown("""
+                **4. Concentración de picos de velocidad e intensidad por bandas**
+                * **Evidencia estadística/visual:** Los gráficos de dispersión (*Scatter plots*) del **Ítem 5 y 7** muestran que las velocidades máximas registraras (picos > 32 km/h) están fuertemente agrupadas en las posiciones de extremos y laterales.
+                * **Toma de decisiones:** Explotar el ancho del campo mediante transiciones rápidas por las bandas en situaciones de contraataque, utilizando jugadores de perfil veloz para desarticular bloques defensivos cerrados.
+    
+                ---
+    
+                **5. Atipicidades y consistencia según la etapa del torneo**
+                * **Evidencia estadística/visual:** El análisis de valores atípicos (*Outliers*) e intervalo intercuartílico en los **Ítems 2 y 8** revela que en fases eliminatorias (*Knockout Stage*) disminuye la variabilidad de faltas y aumenta la efectividad de pases en comparación con la fase de grupos.
+                * **Toma de decisiones:** Ajustar el plan de juego según la fase del torneo, priorizando un enfoque de menor margen de error, disciplina táctica y alta efectividad en la entrega del balón durante las instancias decisivas.
+                """)
+                
+            st.divider()
+            st.info("💬 Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
+                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de los equipos participantes de la Copa del Mundo 2026.")
+           
+                
