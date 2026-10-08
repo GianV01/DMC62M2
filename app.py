@@ -86,3 +86,4 @@ elif Modulos == "Dataset":
         st.write("Carga tu archivo")
 
 else :
+    st.title ("EDA FIFA 2026")
