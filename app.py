@@ -176,30 +176,27 @@ else :
            
                 
        with tab2:
-            st.subheader("Clasificación de variables")
-            st.markdown("Clasificación automática de los atributos del dataset en variables cuantitativas (numéricas) y cualitativas (categóricas).")
+           st.subheader("Clasificación de variables")
+           st.markdown("Clasificación automática de los atributos del dataset en variables cuantitativas (numéricas) y cualitativas (categóricas).")
+           
+           df_num, df_cat, total_num, total_cat = analyzer.clasificar_variables()
+           m1, m2, m3 = st.columns(3)
+           with m1:
+               st.metric(label="Total de Variables", value=datos.shape[1])
+           with m2:
+               st.metric(label="Variables Numéricas", value=total_num)
+           with m3:
+               st.metric(label="Variables Categóricas", value=total_cat)
+           
+           st.divider()
             
-            df_num, df_cat, total_num, total_cat = analyzer.clasificar_variables()
-            
-            m1, m2, m3 = st.columns(3)
-            with m1:
-                st.metric(label="Total de Variables", value=datos.shape[1])
-            with m2:
-                st.metric(label="Variables Numéricas", value=total_num)
-            with m3:
-                st.metric(label="Variables Categóricas", value=total_cat)
-                
-            st.divider()
-            
-            col_num, col_cat = st.columns(2)
-            
-            with col_num:
-                st.markdown(f"##### 🔢 Variables Numéricas ({total_num})")
-                st.dataframe(df_num, use_container_width=True, hide_index=True, height=400)
-                
-            with col_cat:
-                st.markdown(f"##### 🔤 Variables Categóricas ({total_cat})")
-                st.dataframe(df_cat, use_container_width=True, hide_index=True, height=400)
+           col_num, col_cat = st.columns(2)
+           with col_num:
+               st.markdown(f"##### 🔢 Variables Numéricas ({total_num})")
+               st.dataframe(df_num, use_container_width=True, hide_index=True, height=400)
+           with col_cat:
+               st.markdown(f"##### 🔤 Variables Categóricas ({total_cat})")
+               st.dataframe(df_cat, use_container_width=True, hide_index=True, height=400)
                 
         with tab3:
             st.subheader("Estadísticas descriptivas")
