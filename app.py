@@ -185,8 +185,8 @@ else :
                 st.metric(label="Variables Numéricas", value=total_num)
             with m3:
                 st.metric(label="Variables Categóricas", value=total_cat)
-           
-           st.divider()
+                
+            st.divider()
         
            col_num, col_cat = st.columns(2)
            with col_num:
