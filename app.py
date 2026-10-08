@@ -47,7 +47,10 @@ class DataAnalyzer:
         })
 
     def comparacion_bivariada_num_cat(self, num_col, cat_col):
-        return self.df.groupby(cat_col)[num_col].agg(['count', 'mean', 'median', 'std', 'min', 'max']).reset_index()    
+        return self.df.groupby(cat_col)[num_col].agg(['count', 'mean', 'median', 'std', 'min', 'max']).reset_index().round(2)
+    
+    def crosstab_categorica(self, col1, col2, normalize=False):
+        return pd.crosstab(self.df[col1], self.df[col2], normalize='index' if normalize else False).round(4)
 
 st.sidebar.title("Modulos")
 Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
@@ -324,3 +327,137 @@ else :
                     st.pyplot(fig)
             else:
                 st.warning("Las variables necesarias para el análisis bivariado no están disponibles en el dataset.")
+        
+        with tab8:
+            st.subheader("Análisis bivariado (Categórico vs Categórico)")
+            st.markdown("Relaciones e interacciones entre variables cualitativas clave.")
+            
+            opciones_cat_cat = {
+                "Posición vs Etapa del Torneo": ("position", "tournament_stage"),
+                "Equipo vs Resultado del Partido": ("team", "match_result"),
+                "Pie Preferido vs Posición": ("preferred_foot", "position")
+            }
+            validas_cc = {k: v for k, v in opciones_cat_cat.items() if v[0] in datos.columns and v[1] in datos.columns}
+            
+            if validas_cc:
+                sel_cc = st.selectbox("Selecciona la relación a analizar:", list(validas_cc.keys()))
+                var_row, var_col = validas_cc[sel_cc]
+                
+                ver_porcentaje = st.checkbox("Mostrar en Porcentaje (Normalización por Fila)", value=False)
+                ct_df = analyzer.crosstab_categorica(var_row, var_col, normalize=ver_porcentaje)
+                
+                if ver_porcentaje:
+                    ct_df = ct_df * 100
+                
+                col1, col2 = st.columns([1, 1.2])
+                with col1:
+                    st.markdown(f"##### Tabla Cruzada ({'%' if ver_porcentaje else 'Frecuencias'})")
+                    st.dataframe(ct_df, use_container_width=True)
+                    
+                with col2:
+                    st.markdown("##### Visualización de Frecuencias Comparativas")
+                    fig, ax = plt.subplots(figsize=(7, 4.5))
+                    
+                    # Limitar top 10 si hay demasiados registros
+                    filter_df = datos[datos[var_row].isin(datos[var_row].value_counts().head(10).index)]
+                    sns.countplot(data=filter_df, x=var_row, hue=var_col, ax=ax, palette='tab10')
+                    plt.xticks(rotation=30, ha='right')
+                    ax.set_title(f"Distribución de {var_row} por {var_col}")
+                    st.pyplot(fig)
+
+        with tab9:
+            st.subheader("Análisis dinámico según parámetros seleccionados")
+            st.markdown("Filtra el dataset y analiza grupos específicos de métricas tácticas y físicas.")
+            
+            col_f1, col_f2, col_f3 = st.columns(3)
+            
+            with col_f1:
+                teams_sel = st.multiselect("Filtrar por Equipo (Team):", options=sorted(datos['team'].dropna().unique()) if 'team' in datos.columns else [])
+                pos_sel = st.multiselect("Filtrar por Posición:", options=sorted(datos['position'].dropna().unique()) if 'position' in datos.columns else [])
+                
+            with col_f2:
+                stage_sel = st.multiselect("Etapa del Torneo:", options=sorted(datos['tournament_stage'].dropna().unique()) if 'tournament_stage' in datos.columns else [])
+                res_sel = st.multiselect("Resultado del Partido:", options=sorted(datos['match_result'].dropna().unique()) if 'match_result' in datos.columns else [])
+                
+            with col_f3:
+                player_sel = st.multiselect("Jugadores específicos:", options=sorted(datos['player_name'].dropna().unique()) if 'player_name' in datos.columns else [])
+                
+                if 'player_rating' in datos.columns:
+                    min_r, max_r = float(datos['player_rating'].min()), float(datos['player_rating'].max())
+                    rating_range = st.slider("Rango de Calificación (Player Rating):", min_value=min_r, max_value=max_r, value=(min_r, max_r))
+                else:
+                    rating_range = None
+
+            df_filtrado = datos.copy()
+            if teams_sel: df_filtrado = df_filtrado[df_filtrado['team'].isin(teams_sel)]
+            if pos_sel: df_filtrado = df_filtrado[df_filtrado['position'].isin(pos_sel)]
+            if stage_sel: df_filtrado = df_filtrado[df_filtrado['tournament_stage'].isin(stage_sel)]
+            if res_sel: df_filtrado = df_filtrado[df_filtrado['match_result'].isin(res_sel)]
+            if player_sel: df_filtrado = df_filtrado[df_filtrado['player_name'].isin(player_sel)]
+            if rating_range and 'player_rating' in df_filtrado.columns:
+                df_filtrado = df_filtrado[(df_filtrado['player_rating'] >= rating_range[0]) & (df_filtrado['player_rating'] <= rating_range[1])]
+                
+            st.info(f"Registros encontrados tras aplicar filtros: **{len(df_filtrado)}** de {len(datos)}")
+            
+            if not df_filtrado.empty:
+                st.divider()
+                st.markdown("##### Comparación de Grupos de Métricas")
+                
+                metricas_dict = {
+                    "Métricas Ofensivas": [c for c in ['goals', 'assists', 'shots_on_target', 'dribbles_completed', 'pass_accuracy'] if c in df_filtrado.columns],
+                    "Métricas Defensivas": [c for c in ['tackles_won', 'interceptions', 'duels_won', 'clearances', 'fouls_committed'] if c in df_filtrado.columns],
+                    "Métricas Físicas": [c for c in ['distance_covered_km', 'top_speed_kmh', 'sprints'] if c in df_filtrado.columns]
+                }
+                
+                grupo_sel = st.radio("Selecciona la categoría de métricas a analizar:", list(metricas_dict.keys()), horizontal=True)
+                cols_metricas = metricas_dict[grupo_sel]
+                
+                if cols_metricas:
+                    c1, c2 = st.columns([1, 1])
+                    with c1:
+                        st.markdown(f"**Promedio de {grupo_sel} por Posición**")
+                        if 'position' in df_filtrado.columns:
+                            resumen_m = df_filtrado.groupby('position')[cols_metricas].mean().round(2)
+                            st.dataframe(resumen_m, use_container_width=True)
+                    with c2:
+                        st.markdown(f"**Distribución Comparativa**")
+                        met_graf = st.selectbox("Selecciona métrica específica para graficar:", cols_metricas)
+                        fig, ax = plt.subplots(figsize=(6, 3.5))
+                        sns.barplot(data=df_filtrado, x='position' if 'position' in df_filtrado.columns else None, y=met_graf, ax=ax, palette='viridis')
+                        st.pyplot(fig)
+            else:
+                st.warning("No hay datos disponibles para los filtros seleccionados.")
+
+        with tab10:
+            st.subheader("Hallazgos clave, Insights y Recomendaciones")
+            st.markdown("Resumen ejecutivo del análisis exploratorio orientado a la toma de decisiones estratégicas tácticas.")
+            
+            # Resumen KPI Top
+            kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+            kpi1.metric("Jugador Destacado (Rating Max)", f"{datos.loc[datos['player_rating'].idxmax(), 'player_name']}" if 'player_rating' in datos.columns and 'player_name' in datos.columns else "N/A")
+            kpi2.metric("Promedio Distancia Recorrida", f"{datos['distance_covered_km'].mean():.2f} km" if 'distance_covered_km' in datos.columns else "N/A")
+            kpi3.metric("Efectividad de Pases Global", f"{datos['pass_accuracy'].mean():.1f}%" if 'pass_accuracy' in datos.columns else "N/A")
+            kpi4.metric("Velocidad Máxima Registrada", f"{datos['top_speed_kmh'].max():.1f} km/h" if 'top_speed_kmh' in datos.columns else "N/A")
+            
+            st.divider()
+            
+            c_ins1, c_ins2 = st.columns(2)
+            
+            with c_ins1:
+                st.markdown("### 📌 Principales Insights del EDA")
+                st.markdown("""
+                1. **Despliegue Físico por Posición:** Los centrocampistas y carrileros muestran el mayor recorrido en distancia (`distance_covered_km`), manteniendo una alta exigencia física a lo largo del torneo.
+                2. **Impacto en el Resultado:** Se observa una correlación positiva importante entre el `performance_score` / `pass_accuracy` y las victorias obtenidas por las selecciones (`match_result = Win`).
+                3. **Consistencia de Calificación:** Las calificaciones altas (`player_rating > 8.0`) están estrechamente asociadas a la eficiencia en duelo individuales ganados y precisión en pases en el último tercio de campo.
+                """)
+                
+            with c_ins2:
+                st.markdown("### 🎯 Recomendaciones para la Toma de Decisiones")
+                st.markdown("""
+                * **Gestión de Cargas Físicas:** Rotar a los jugadores de medio campo en fases avanzadas del torneo (`tournament_stage`) debido al alto desgaste acumulado registrado en la distancia y número de sprints.
+                * **Estrategia Táctica:** Priorizar alineaciones con alto porcentaje de precisión de pase, ya que este factor discrimina de forma contundente a las selecciones ganadoras frente a las derrotadas.
+                * **Planificación de Entrenamientos:** Ajustar los planes de preparación según el perfil de perfil de posición y pie preferido (`preferred_foot`), optimizando las jugadas preparadas por banda.
+                """)
+                
+            st.divider()
+            st.info("💡 **Nota de interpretación:** Este análisis se basa estrictamente en la exploración descriptiva de datos históricos del torneo (EDA) y está diseñado para dar soporte analítico, sin constituir un modelo predictivo o de machine learning.")
