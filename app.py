@@ -30,14 +30,14 @@ if Modulos == "Home":
     st.divider()
 
     st.subheader(" DATA SET ",text_alignment="center")
-    st.markdown("El DataSet de análisis presenta registros y variables de los futbolistas que participaron  "
+    st.markdown(" La información propocionada para el análisis, presenta gran volumen de registros y variables de los futbolistas que participaron  "
                 " en la Copa del Mundo 2026. Se ha considerado métricas ofensivas, defensivas, esfuerzo físico,  "
                 " las distintas estrategias tácticas, en las diferentes etapas del torneo.",text_alignment="justify")
     st.divider()
 
-    st.markdown("El objetivo de este análisis es explorar y evaluar el rendimiento de los futbolistas  "
-                "y selecciones en la Copa Mundial de la FIFA 2026 a través de sus estadísticas técnicas,  "
-                 "ofensivas, defensivas, físicas y contextuales.",text_alignment="justify")
+    st.markdown(" Se busca analizar, explorar y evaluar el rendimiento de los futbolistas  "
+                " y selecciones en la Copa Mundial de la FIFA 2026 a través de sus estadísticas técnicas,ofensivas, defensivas, físicas y contextuales.  "
+                " Que finalmente servirá para la toma de decisiones frente a proximos torneos de alto rendimiento",text_alignment="justify")
     st.divider()
 
     st.subheader(" Tecnologias Utilizadas ",text_alignment="center")
