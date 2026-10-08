@@ -90,7 +90,7 @@ elif Modulos == "Dataset":
             
             st.subheader("Vista Previa de los Datos")
             
-            filas = st.number_input("Selecciona el numero de filas a mostrar", min_value=1, value=1, step=10)
+            filas = st.number_input("Selecciona el numero de filas a mostrar", min_value=1, value=10, step=10)
             
             st.dataframe(datos.head(filas))
 
