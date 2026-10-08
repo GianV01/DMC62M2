@@ -68,6 +68,7 @@ if Modulos == "Home":
     st.divider()
 
     st.subheader(" 2026 ",text_alignment="center")
+
 elif Modulos == "Dataset":
 
 else :
