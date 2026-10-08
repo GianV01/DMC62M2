@@ -7,7 +7,8 @@ Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"
 
 if Modulos == "Home":
     st.set_page_config(page_title=" Presentación ", page_icon="🪪", layout="wide")
-    st.title("PROYECTO 2 – EDA DEL MUNDIAL FIFA 2026 CAN-USA-MEX",text_alignment="center")
+    st.title("PROYECTO 2",text_alignment="center")
+    st.subheader(" EDA DEL MUNDIAL FIFA 2026 CAN-USA-MEX ",text_alignment="center")
     st.divider()
 
     col1, col2 = st.columns(2)
@@ -25,7 +26,7 @@ if Modulos == "Home":
 
     st.divider()
                         
-    st.subheader(" Módulo 2 – Python Fundamentals ",text_alignment="center")
+    st.subheader(" Módulo 2 – Python for Analytics ",text_alignment="center")
     st.divider()
 
     st.subheader(" DATA SET ",text_alignment="center")
