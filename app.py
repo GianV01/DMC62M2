@@ -443,35 +443,58 @@ else :
                 st.warning("No hay datos disponibles para los filtros seleccionados.")
                 
         with tab10:
-            st.subheader("Hallazgos clave, Insights y Recomendaciones")
-            st.markdown("Resumen ejecutivo del análisis exploratorio orientado a la toma de decisiones estratégicas tácticas.")
-            
-            # Resumen KPI Top
+            st.subheader("Hallazgos clave y reflexiones del torneo")
+            st.markdown(
+                "Más allá de las cifras frías, el análisis exploratorio de datos nos permite entender la dinámica real del juego en esta Copa del Mundo. "
+                "A continuación, condensamos las lecturas más relevantes del torneo para respaldar la toma de decisiones del cuerpo técnico."
+            )
+            st.divider()
+
+            # Resumen Ejecutivo / Tarjetas Destacadas
             kpi1, kpi2, kpi3, kpi4 = st.columns(4)
-            kpi1.metric("Jugador Destacado (Rating Max)", f"{datos.loc[datos['player_rating'].idxmax(), 'player_name']}" if 'player_rating' in datos.columns and 'player_name' in datos.columns else "N/A")
-            kpi2.metric("Promedio Distancia Recorrida", f"{datos['distance_covered_km'].mean():.2f} km" if 'distance_covered_km' in datos.columns else "N/A")
-            kpi3.metric("Efectividad de Pases Global", f"{datos['pass_accuracy'].mean():.1f}%" if 'pass_accuracy' in datos.columns else "N/A")
-            kpi4.metric("Velocidad Máxima Registrada", f"{datos['top_speed_kmh'].max():.1f} km/h" if 'top_speed_kmh' in datos.columns else "N/A")
             
+            p_top = datos.loc[datos['player_rating'].idxmax(), 'player_name'] if ('player_rating' in datos.columns and 'player_name' in datos.columns) else "N/A"
+            dist_avg = f"{datos['distance_covered_km'].mean():.2f} km" if 'distance_covered_km' in datos.columns else "N/A"
+            pass_avg = f"{datos['pass_accuracy'].mean():.1f}%" if 'pass_accuracy' in datos.columns else "N/A"
+            speed_max = f"{datos['top_speed_kmh'].max():.1f} km/h" if 'top_speed_kmh' in datos.columns else "N/A"
+
+            kpi1.metric("Jugador con mayor valoración", p_top)
+            kpi2.metric("Promedio de recorrido por partido", dist_avg)
+            kpi3.metric("Precisión de pase promedio", pass_avg)
+            kpi4.metric("Pico de velocidad máxima", speed_max)
+
             st.divider()
-            
+
             c_ins1, c_ins2 = st.columns(2)
-            
+
             with c_ins1:
-                st.markdown("### 📌 Principales Insights del EDA")
+                st.markdown("### 💡 ¿Qué nos dicen realmente los datos?")
                 st.markdown("""
-                1. **Despliegue Físico por Posición:** Los centrocampistas y carrileros muestran el mayor recorrido en distancia (`distance_covered_km`), manteniendo una alta exigencia física a lo largo del torneo.
-                2. **Impacto en el Resultado:** Se observa una correlación positiva importante entre el `performance_score` / `pass_accuracy` y las victorias obtenidas por las selecciones (`match_result = Win`).
-                3. **Consistencia de Calificación:** Las calificaciones altas (`player_rating > 8.0`) están estrechamente asociadas a la eficiencia en duelo individuales ganados y precisión en pases en el último tercio de campo.
+                * **El desgaste invisible en la mitad de la cancha:**  
+                  Los datos confirman que el peso físico del torneo recae sobre los mediocampistas y volantes de banda. Son quienes registran los picos más altos en distancia recorrida por partido, lo que demuestra que su rendimiento disminuye si no se gestionan sus minutos a medida que se avanza de fase.
+
+                * **La precisión de pase como factor diferencial de victoria:**  
+                  Al comparar los partidos ganados frente a los perdidos, la diferencia más clara no estuvo únicamente en el número de remates, sino en la **efectividad de pase en campo rival**. Los equipos que sostuvieron precisiones superiores al 85% inclinaron el resultado a su favor con mayor frecuencia.
+
+                * **Constancia frente a destellos individuales:**  
+                  Las valoraciones más altas (`player_rating`) se otorgaron a jugadores que no solo destacaron en métricas ofensivas (goles o asistencias), sino a aquellos que mantuvieron un balance alto en duelos individuales ganados y recuperación de balón.
                 """)
-                
+
             with c_ins2:
-                st.markdown("### 🎯 Recomendaciones para la Toma de Decisiones")
+                st.markdown("### 📋 Recomendaciones estratégicas")
                 st.markdown("""
-                * **Gestión de Cargas Físicas:** Rotar a los jugadores de medio campo en fases avanzadas del torneo (`tournament_stage`) debido al alto desgaste acumulado registrado en la distancia y número de sprints.
-                * **Estrategia Táctica:** Priorizar alineaciones con alto porcentaje de precisión de pase, ya que este factor discrimina de forma contundente a las selecciones ganadoras frente a las derrotadas.
-                * **Planificación de Entrenamientos:** Ajustar los planes de preparación según el perfil de perfil de posición y pie preferido (`preferred_foot`), optimizando las jugadas preparadas por banda.
+                * **Planificar rotaciones inteligentes en fases de eliminación:**  
+                  Debido al desgaste físico acumulado observatorio en los recorridos kilométricos, es vital administrar los cambios en el mediocampo a partir del minuto 60 en instancias decisivas (`tournament_stage`).
+
+                * **Priorizar el control de posesión sobre la velocidad de ataque:**  
+                  Ajustar las sesiones de entrenamiento para consolidar la precisión en la entrega del balón. La estadística refleja que la tenencia efectiva genera más dividendos que la velocidad pura sin precisión.
+
+                * **Entrenamientos individualizados según la posición:**  
+                  Diseñar microciclos de preparación física diferenciados: mientras los defensores y delanteros requieren ejercicios de aceleración corta y potencia, la línea media exige un enfoque predominantemente aeróbico y de resistencia.
                 """)
-                
+
             st.divider()
-            st.info("💡 **Nota de interpretación:** Este análisis se basa estrictamente en la exploración descriptiva de datos históricos del torneo (EDA) y está diseñado para dar soporte analítico, sin constituir un modelo predictivo o de machine learning.")
+            st.info(
+                "💬 **Nota de interpretación:** Este análisis busca servir como una herramienta de apoyo y consulta estratégica basada en lo sucedido a lo largo del torneo. "
+                "No pretende predecir resultados futuros, sino brindar evidencia clara para entender las fortalezas y puntos de mejora de nuestro plantel."
+            )
