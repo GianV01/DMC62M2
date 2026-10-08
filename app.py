@@ -12,8 +12,8 @@ class DataAnalyzer:
     def obtener_info_tabla(self):
         info_df = pd.DataFrame({'Columna': self.df.columns,'Tipo de Dato': self.df.dtypes.astype(str),'Valores No Nulos': self.df.notnull().sum(),'Valores Nulos': self.df.isnull().sum()}).reset_index(drop=True)
         return info_df
-        
-    def clasificar_variables(self):
+        
+    def clasificar_variables(self):
         num_cols = self.df.select_dtypes(include=[np.number]).columns.tolist()
         cat_cols = self.df.select_dtypes(exclude=[np.number]).columns.tolist()
         
@@ -21,11 +21,11 @@ class DataAnalyzer:
         df_cat = pd.DataFrame({"N°": range(1, len(cat_cols) + 1), "Variable Categórica": cat_cols, "Tipo": [self.df[col].dtype for col in cat_cols]})
         
         return df_num, df_cat, len(num_cols), len(cat_cols)
-        
-    def estadisticas_descriptivas(self):
+
+    def estadisticas_descriptivas(self):
         return self.df.describe()
 
-    def analizar_faltantes(self):
+    def analizar_faltantes(self):
         faltantes = self.df.isnull().sum()
         porcentaje = (faltantes / len(self.df)) * 100
         return pd.DataFrame({'Variable': self.df.columns, 
