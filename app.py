@@ -443,14 +443,14 @@ else :
                 st.warning("No hay datos disponibles para los filtros seleccionados.")
                 
         with tab10:
-            st.subheader("Hallazgos clave y reflexiones del torneo")
+            st.subheader("CONCLUSIONES DEL TORNEO")
             st.markdown(
                 " El análisis exploratorio de datos nos permite entender la dinámica real del juego en esta Copa del Mundo. "
                 " Por lo que se va a mostar las lecturas más relevantes del torneo con respecto al rendimiento indivual de jugadores y resultados de los equipos.")
             
             st.divider()
 
-            st.markdown(**" Este analisis nos ha dado como resultado que el jugador más destacado en cuanto atributos fisicos es el defensor egipcio: "**)
+            st.markdown(" Este analisis nos ha dado como resultado que el jugador más destacado en cuanto atributos fisicos es el defensor egipcio: ")
 
             kpi1, kpi2, kpi3, kpi4 = st.columns(4)
             
@@ -471,11 +471,11 @@ else :
             with c_ins1:
                 st.markdown("### 💡 ¿Qué nos dicen realmente los datos?")
                 st.markdown("""
-                * **El desgaste invisible en la mitad de la cancha:**  
-                  Los datos confirman que el peso físico del torneo recae sobre los mediocampistas y volantes de banda. Son quienes registran los picos más altos en distancia recorrida por partido, lo que demuestra que su rendimiento disminuye si no se gestionan sus minutos a medida que se avanza de fase.
+                * **El control y posesion del centro del campo:**  
+                  Los datos confirman que el peso físico del torneo recae sobre los mediocampistas y volantes. Son quienes registran los picos más altos en distancia recorrida por partido (`distance_covered_km`), lo que demuestra que su rendimiento disminuye si no se gestionan sus minutos a medida que se avanza de fase.
 
-                * **La precisión de pase como factor diferencial de victoria:**  
-                  Al comparar los partidos ganados frente a los perdidos, la diferencia más clara no estuvo únicamente en el número de remates, sino en la **efectividad de pase en campo rival**. Los equipos que sostuvieron precisiones superiores al 85% inclinaron el resultado a su favor con mayor frecuencia.
+                * ** Control y dominio del balón como factor para la victoria:**  
+                  Al comparar los partidos ganados frente a los perdidos, la diferencia más clara no estuvo únicamente en el número de remates, sino en la **efectividad de pase en campo rival** (`pass_accuracy`). Los equipos que sostuvieron precisiones superiores al 85% inclinaron el resultado a su favor con mayor frecuencia.(`match_result = Win`)
 
                 * **Constancia frente a destellos individuales:**  
                   Las valoraciones más altas (`player_rating`) se otorgaron a jugadores que no solo destacaron en métricas ofensivas (goles o asistencias), sino a aquellos que mantuvieron un balance alto en duelos individuales ganados y recuperación de balón.
