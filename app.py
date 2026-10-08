@@ -10,13 +10,12 @@ class DataAnalyzer:
         self.df = df
     
     def obtener_info_tabla(self):
-        info_df = pd.DataFrame({
+        info_df = pd.DataFrame({
             'Columna': self.df.columns,
             'Tipo de Dato': self.df.dtypes.astype(str),
             'Valores No Nulos': self.df.notnull().sum(),
-            'Valores Nulos': self.df.isnull().sum()
-        }).reset_index(drop=True)
-        return info_df
+            'Valores Nulos': self.df.isnull().sum()}).reset_index(drop=True)
+        return info_df
         
     def clasificar_variables(self):
         num_cols = self.df.select_dtypes(include=[np.number]).columns.tolist()
