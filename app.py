@@ -173,8 +173,6 @@ else :
                 st.metric("Valores Nulos Totales", datos.isnull().sum().sum())
             with col3:
                 st.metric("Registros Duplicados", datos.duplicated().sum())
-           
-                
        with tab2:
            st.subheader("Clasificación de variables")
            st.markdown("Clasificación automática de los atributos del dataset en variables cuantitativas (numéricas) y cualitativas (categóricas).")
