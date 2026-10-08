@@ -1,6 +1,26 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+
+class DataAnalyzer:
+    def __init__(self, df):
+        self.df = df
+        
+    def obtener_info(self):
+        buffer = io.StringIO()
+        self.df.info(buf=buffer)
+        return buffer.getvalue()
+        
+    def clasificar_variables(self):
+        numericas = self.df.select_dtypes(include=[np.number]).columns.tolist()
+        categoricas = self.df.select_dtypes(exclude=[np.number]).columns.tolist()
+        return numericas, categoricas
+        
+    def estadisticas_descriptivas(self):
+        return self.df.describe()
 
 st.sidebar.title("Modulos")
 Modulos = st.sidebar.selectbox("Selecione el módulo", ["Home", "Dataset", "EDA"])
@@ -71,27 +91,24 @@ if Modulos == "Home":
     st.subheader(" 2026 ",text_alignment="center")
 
 elif Modulos == "Dataset":
-    st.title (" DATASET ")
-    st.sidebar.title ("Herramientas")
+    st.title(" DATASET ")
+    st.sidebar.title("Herramientas")
 
     archivo = st.sidebar.file_uploader("Selecciona tu archivo a cargar")
     if archivo is not None:
         st.write("Su archivo ha sido cargado exitosamente")
         
         if archivo.name.endswith(".csv"):
-            datos = pd.read_csv(archivo)
+            st.session_state['datos'] = pd.read_csv(archivo)
         elif archivo.name.endswith(".xlsx"):
-            datos = pd.read_excel(archivo)
+            st.session_state['datos'] = pd.read_excel(archivo)
         else:
-            datos == None
-            st.error("El formato cargado no es correpto. Por favor, sube un archivo .csv o .xlsx")
+            st.error("El formato cargado no es correcto. Por favor, sube un archivo .csv o .xlsx")
 
-        if datos is not None:
-            
+        if 'datos' in st.session_state:
+            datos = st.session_state['datos']
             st.subheader("Vista Previa de los Datos")
-            
             filas = st.number_input("Selecciona el numero de filas a mostrar", min_value=1, value=10, step=10)
-            
             st.dataframe(datos.head(filas))
 
             st.divider()
@@ -100,9 +117,52 @@ elif Modulos == "Dataset":
             col1, col2 = st.columns(2)
             col1.metric("Número de Filas", datos.shape[0])
             col2.metric("Número de Columnas", datos.shape[1])
-
     else:
         st.info("Por favor, sube un archivo para continuar.")
 
 else :
-    st.title ("EDA FIFA 2026")
+    st.title("EDA FIFA 2026")
+    
+    if 'datos' not in st.session_state:
+        st.warning("⚠️ Debes cargar un dataset en el módulo 'Dataset' antes de iniciar el EDA.")
+    else:
+        datos = st.session_state['datos']
+        analyzer = DataAnalyzer(datos)
+        
+        st.success("Dataset cargado correctamente. Iniciando Análisis Exploratorio.")
+        
+        
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([" Ítem 1: Información General",  
+                                                                               " Ítem 2: Variables",  
+                                                                               " Ítem 3: Estadísticas",  
+                                                                               " Ítem 4: Análisis de valores faltantes ",  
+                                                                               " Ítem 5: Distribución de variables numéricas ",  
+                                                                               " Ítem 6: Análisis de variables categóricas",  
+                                                                               " Ítem 7: Análisis bivariado (numérico vs categórico) ",  
+                                                                               " Ítem 8: Análisis bivariado (categórico vs categórico) ", 
+                                                                               " Ítem 9: Análisis basado en parámetros seleccionados ",  
+                                                                               " Ítem 10: Hallazgos clave ",])
+        
+        with tab1:
+            st.subheader("Información general del dataset")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.text(analyzer.obtener_info())
+            with col2:
+                st.metric("Valores Nulos Totales", datos.isnull().sum().sum())
+                st.metric("Registros Duplicados", datos.duplicated().sum())
+                
+        with tab2:
+            st.subheader("Clasificación de variables")
+            num, cat = analyzer.clasificar_variables()
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write(f"**Numéricas ({len(num)})**")
+                st.dataframe(pd.DataFrame(num, columns=["Variables Numéricas"]))
+            with col2:
+                st.write(f"**Categóricas ({len(cat)})**")
+                st.dataframe(pd.DataFrame(cat, columns=["Variables Categóricas"]))
+                
+        with tab3:
+            st.subheader("Estadísticas descriptivas")
+            st.dataframe(analyzer.estadisticas_descriptivas())
