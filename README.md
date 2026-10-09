@@ -45,16 +45,6 @@ El objetivo principal es explorar el rendimiento de jugadores y selecciones a tr
 * **Repositorio de GitHub:** https://github.com/GianV01/DMC62M2/blob/main/app.py
 
 ---
-
-## 🛠️ Tecnologías Utilizadas
-
-* **Lenguaje de Programación:** Python 3.10
-* **Framework Web Interactivo:** Streamlit
-* **Manipulación y Análisis de Datos:** Pandas, NumPy
-* **Visualización de Datos:** Matplotlib, Seaborn
-* **Control de Versiones y Despliegue:** Git, GitHub, Streamlit Community Cloud
----
-
 ## 📋 Estructura del Dataset
 
 El análisis se basa en el dataset `fifa_world_cup_2026_player_performance.csv`, el cual contiene **54,600 registros** y **75 variables**[cite: 1, 5] que recopilan estadísticas detalladas de 1,248 jugadores en 1,050 partidos disputados por 48 selecciones[cite: 5].
@@ -78,9 +68,4 @@ El análisis se basa en el dataset `fifa_world_cup_2026_player_performance.csv`,
 
 ## 💻 Instalación y Ejecución Local
 
-Para ejecutar esta aplicación de manera local en tu entorno de desarrollo, sigue estos pasos:
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
-   cd tu-repositorio
+Para poner en ejecución el proyecto e iniciar con el analisis, se debe ingresar al desarrollo que se ha hecho en la plataforma Streamlit, y en el modulo "DATASET" se carga el archivo .CSV o .XLSX con la información a trabajar, este apartado es sumamente importante porque condiciona la visaulizacón y muestra graficos en el modulo "EDA", en cada uno de los Items se encontrará información importante para entender el dataset, con ayuda de graficos interactivos comparando variables claves para mejorar la toma de decisiones.
