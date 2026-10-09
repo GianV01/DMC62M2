@@ -66,6 +66,6 @@ El análisis se basa en el dataset `fifa_world_cup_2026_player_performance.csv`,
 
 ---
 
-## 💻 Instalación y Ejecución Local
+## 💻 Instrucciones para la Ejecución Local
 
 Para poner en ejecución el proyecto e iniciar con el analisis, se debe ingresar al desarrollo que se ha hecho en la plataforma Streamlit, y en el modulo "DATASET" se carga el archivo .CSV o .XLSX con la información a trabajar, este apartado es sumamente importante porque condiciona la visaulizacón y muestra graficos en el modulo "EDA", en cada uno de los Items se encontrará información importante para entender el dataset, con ayuda de graficos interactivos comparando variables claves para mejorar la toma de decisiones.
