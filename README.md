@@ -1,4 +1,4 @@
-⚽ FIFA World Cup 2026 - Exploratory Data Analysis (EDA) & Analytics App
+⚽ FIFA World Cup 2026 - Exploratory Data Analysis (EDA)
 
 📌 Descripción del Proyecto
 
