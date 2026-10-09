@@ -41,8 +41,8 @@ El objetivo principal es explorar el rendimiento de jugadores y selecciones a tr
 
 ## 🚀 Enlaces Relevantes
 
-* **Aplicación Desplegada:** 
-* **Repositorio de GitHub:** 
+* **Aplicación Desplegada:** https://dmc62-gianvaldivia.streamlit.app/
+* **Repositorio de GitHub:** https://github.com/GianV01/DMC62M2/blob/main/app.py
 
 ---
 
