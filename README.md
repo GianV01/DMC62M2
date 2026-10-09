@@ -47,22 +47,22 @@ El objetivo principal es explorar el rendimiento de jugadores y selecciones a tr
 ---
 ## 📋 Estructura del Dataset
 
-El análisis se basa en el dataset `fifa_world_cup_2026_player_performance.csv`, el cual contiene **54,600 registros** y **75 variables**[cite: 1, 5] que recopilan estadísticas detalladas de 1,248 jugadores en 1,050 partidos disputados por 48 selecciones[cite: 5].
+El análisis se basa en el dataset `fifa_world_cup_2026_player_performance.csv`, el cual contiene **54,600 registros** y **75 variables** que recopilan estadísticas detalladas de 1,248 jugadores en 1,050 partidos disputados por 48 selecciones.
 
 ### Variables Principales
 
 | Variable | Descripción |
 | :--- | :--- |
-| `player_name` | Nombre del futbolista[cite: 6]. |
-| `team` | Selección nacional representada[cite: 6]. |
-| `position` | Posición de juego (Goalkeeper, Defender, Midfielder, Forward)[cite: 6]. |
-| `tournament_stage` | Fase del torneo (Group Stage, Round of 32, Quarter-finals, etc.)[cite: 6]. |
-| `match_result` | Resultado del partido para el equipo (Win, Loss, Draw)[cite: 6]. |
-| `player_rating` | Calificación del jugador en el partido[cite: 8]. |
-| `performance_score` | Puntaje global de rendimiento[cite: 8]. |
-| `pass_accuracy` | Proporción de precisión de pases (%)[cite: 7]. |
-| `distance_covered_km` | Distancia recorrida por el jugador en kilómetros[cite: 7]. |
-| `top_speed_kmh` | Velocidad máxima alcanzada en el partido en km/h[cite: 7]. |
+| `player_name` | Nombre del futbolista. |
+| `team` | Selección nacional representada. |
+| `position` | Posición de juego (Goalkeeper, Defender, Midfielder, Forward). |
+| `tournament_stage` | Fase del torneo (Group Stage, Round of 32, Quarter-finals, etc.). |
+| `match_result` | Resultado del partido para el equipo (Win, Loss, Draw). |
+| `player_rating` | Calificación del jugador en el partido. |
+| `performance_score` | Puntaje global de rendimiento. |
+| `pass_accuracy` | Proporción de precisión de pases (%). |
+| `distance_covered_km` | Distancia recorrida por el jugador en kilómetros. |
+| `top_speed_kmh` | Velocidad máxima alcanzada en el partido en km/h. |
 
 ---
 
