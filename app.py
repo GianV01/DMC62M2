@@ -347,15 +347,15 @@ elif Modulos == "EDA":
             c_ins1, c_ins2 = st.columns(2)
             
             with c_ins1:
-                st.markdown("### 📌 Principales Insights del EDA")
+                st.markdown("### Principales Insights del EDA")
                 st.markdown("""
                 1. **Despliegue Físico por Posición:** Los centrocampistas y carrileros muestran el mayor recorrido en distancia (`distance_covered_km`), manteniendo una alta exigencia física a lo largo del torneo.
                 2. **Impacto en el Resultado:** Se observa una correlación positiva importante entre el `performance_score` / `pass_accuracy` y las victorias obtenidas por las selecciones (`match_result = Win`).
-                3. **Consistencia de Calificación:** Las calificaciones altas (`player_rating > 8.0`) están estrechamente asociadas a la eficiencia en duelo individuales ganados y precisión en pases en el último tercio de campo.
+                3. **Consistencia de Calificación:** Las calificaciones altas (`player_rating`) están estrechamente asociadas a la eficiencia en duelo individuales ganados y precisión en pases en el último tercio de campo.
                 """)
                 
             with c_ins2:
-                st.markdown("### 🎯 Recomendaciones para la Toma de Decisiones")
+                st.markdown("### Recomendaciones para la Toma de Decisiones")
                 st.markdown("""
                 * **Gestión de Cargas Físicas:** Rotar a los jugadores de medio campo en fases avanzadas del torneo (`tournament_stage`) debido al alto desgaste acumulado registrado en la distancia y número de sprints.
                 * **Estrategia Táctica:** Priorizar alineaciones con alto porcentaje de precisión de pase, ya que este factor discrimina de forma contundente a las selecciones ganadoras frente a las derrotadas.
@@ -363,4 +363,4 @@ elif Modulos == "EDA":
                 """)
                 
             st.divider()
-            st.info("💡 **Nota de interpretación:** Este análisis se basa estrictamente en la exploración descriptiva de datos históricos del torneo (EDA) y está diseñado para dar soporte analítico, sin constituir un modelo predictivo o de machine learning.")
+            st.info("💡 Lo se busca es entender la información que se tiene estrictamente el explorar datos históricos del torneo (EDA) y está diseñado para dar soporte analítico, sin constituir un modelo predictivo o de machine learning.")
